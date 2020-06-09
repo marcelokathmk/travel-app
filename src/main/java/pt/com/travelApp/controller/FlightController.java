@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pt.com.travelApp.dto.FlightAvgDTO;
+import pt.com.travelApp.service.FlightService;
 import pt.com.travelApp.service.RequestLogService;
 
 @RestController
@@ -16,19 +18,24 @@ import pt.com.travelApp.service.RequestLogService;
 public class FlightController extends BaseController{
 
 	@Autowired
-	private RequestLogService service;
+	private RequestLogService requestLogService;
+	
+	@Autowired
+	private FlightService flightService;
 	
 	@GetMapping(value = "/avg")
-	public ResponseEntity<String> avg(HttpServletRequest request,
+	public ResponseEntity<FlightAvgDTO> avg(HttpServletRequest request,
 										@RequestParam(name = "fly_from") String flyFrom,
 										@RequestParam(name = "fly_to") String flyTo,
 										@RequestParam(name = "date_from") String dateFrom,
 										@RequestParam(name = "date_to") String dateTo,
-										@RequestParam(name = "curr", required = false) String currency,
+										@RequestParam(name = "curr", required = false, defaultValue = "EUR") String currency,
 										@RequestParam(name = "airlines", required = false) String airlines){
 		
-		service.save(getUrlRequest(request), "Response as JSON");
+		FlightAvgDTO flightInfo = flightService.getFlightsAveragePrices(flyFrom, flyTo, dateFrom, dateTo, currency, airlines);
 		
-		return ResponseEntity.ok().body("Worked!");
+		requestLogService.save(getUrlRequest(request), getJsonValueFromObject(flightInfo));
+		
+		return ResponseEntity.ok().body(flightInfo);
 	}
 }

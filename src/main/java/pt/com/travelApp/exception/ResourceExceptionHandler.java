@@ -20,8 +20,20 @@ public class ResourceExceptionHandler {
     }
     
     @ExceptionHandler(DateTimeParseException.class)
-    public ResponseEntity<StandardError> DatePatternNotCorrect(DateTimeParseException e, HttpServletRequest request){
+    public ResponseEntity<StandardError> datePatternNotCorrect(DateTimeParseException e, HttpServletRequest request){
     	StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "The date should be in the format dd/MM/yyyy. Example: 08/09/2020", e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+    
+    @ExceptionHandler(ParseJSONException.class)
+    public ResponseEntity<StandardError> jsonProcessingException(ParseJSONException e, HttpServletRequest request){
+    	StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Exception when tried parse Object to JSON", e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+    
+    @ExceptionHandler(SkyPickerClientException.class)
+    public ResponseEntity<StandardError> skyPickerClientException(SkyPickerClientException e, HttpServletRequest request){
+    	StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Exception when called the SkyPicker API", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
