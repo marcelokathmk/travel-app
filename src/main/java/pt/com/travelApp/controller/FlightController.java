@@ -2,6 +2,8 @@ package pt.com.travelApp.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.com.travelApp.dto.FlightAvgDTO;
 import pt.com.travelApp.service.FlightService;
 import pt.com.travelApp.service.RequestLogService;
+import pt.com.travelApp.util.JsonHelper;
 
 @RestController
 @RequestMapping(value = "/flight")
 public class FlightController extends BaseController{
 
+	private static final Logger logger = LoggerFactory.getLogger(FlightController.class);
+	
 	@Autowired
 	private RequestLogService requestLogService;
 	
@@ -32,9 +37,11 @@ public class FlightController extends BaseController{
 										@RequestParam(name = "curr", required = false, defaultValue = "EUR") String currency,
 										@RequestParam(name = "airlines", required = false) String airlines){
 		
+		logger.info("Receiving new request on /flight/avg. {}", getUrlRequest(request));
+		
 		FlightAvgDTO flightInfo = flightService.getFlightsAveragePrices(flyFrom, flyTo, dateFrom, dateTo, currency, airlines);
 		
-		requestLogService.save(getUrlRequest(request), getJsonValueFromObject(flightInfo));
+		requestLogService.save(getUrlRequest(request), JsonHelper.getJsonValueFromObject(flightInfo));
 		
 		return ResponseEntity.ok().body(flightInfo);
 	}

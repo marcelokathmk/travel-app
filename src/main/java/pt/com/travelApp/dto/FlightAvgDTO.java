@@ -2,6 +2,7 @@ package pt.com.travelApp.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class FlightAvgDTO implements Serializable {
 
@@ -16,6 +17,26 @@ public class FlightAvgDTO implements Serializable {
 	private BigDecimal priceAverage;
 	
 	private FlightBagsPriceDTO bagsPrice;
+	
+	private LocalDate dateFrom;
+	
+	private LocalDate dateTo;
+
+	public LocalDate getDateFrom() {
+		return dateFrom;
+	}
+
+	public void setDateFrom(LocalDate dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public LocalDate getDateTo() {
+		return dateTo;
+	}
+
+	public void setDateTo(LocalDate dateTo) {
+		this.dateTo = dateTo;
+	}
 
 	public String getDestinationFrom() {
 		return destinationFrom;
