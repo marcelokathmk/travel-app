@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import pt.com.travelApp.entity.RequestLog;
 import pt.com.travelApp.service.RequestLogService;
 
 @RestController
 @RequestMapping(value = "/request")
+@Api(tags = {"RequestLogs"})
 public class RequestLogController extends BaseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequestLogController.class);
@@ -27,6 +30,7 @@ public class RequestLogController extends BaseController {
 	private RequestLogService service;
 	
 	@GetMapping(value = "/listAll")
+	@ApiOperation(value = "List all the records of the requests in database.")
 	public ResponseEntity<List<RequestLog>> getAllRequests(HttpServletRequest request){
 		logger.info("Receiving new request on {}", getUrlRequest(request));
 		
@@ -38,6 +42,7 @@ public class RequestLogController extends BaseController {
 	}
 	
 	@DeleteMapping(value = "/deleteAll")
+	@ApiOperation(value = "Delete all the records of the requests from database.")
 	public ResponseEntity<Void> deleteAllRequests(HttpServletRequest request){
 		logger.info("Receiving new request on {}", getUrlRequest(request));
 		

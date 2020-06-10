@@ -44,7 +44,7 @@ public class SkyPickerClient {
 			logger.info("Preparing to call Skypicker API. URL: {}", baseUrl + url.toString());
 			
 			Mono<FlightDTO> skypickerResponse = getClient().get().uri(url.toString()).retrieve().bodyToMono(FlightDTO.class);
-			response = skypickerResponse.block(Duration.ofSeconds(2));
+			response = skypickerResponse.block(Duration.ofSeconds(5));
 			
 		} catch (WebClientResponseException e) {
 			logger.error("Exception to get Flight Informations.", e);
