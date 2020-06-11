@@ -8,12 +8,12 @@ You must have [JDK8](http://openjdk.java.net), [Maven](https://maven.apache.org)
 
 1. Clone the repositorie using `git clone`;
 2. Enter in the cloned repositorie using `cd`;
+3. Execute the command `mvn clean package` to build the application;
 3. Choose one of the following profiles:
 
 ### Profiles
 * test (Whithout Docker)
-	- Execute the command `mvn clean package` to build the application
-	- After build, execute the application with command `java -jar -Dspring.profiles.active=test target/travelApp-0.0.1-SNAPSHOT.jar`
+	- Execute the application with command `java -jar -Dspring.profiles.active=test target/travelApp-0.0.1-SNAPSHOT.jar`
 	- Run the application with [H2](https://www.h2database.com) embedded database. After sucess to load the appliaciton, you can see the database console in the [link](http://localhost:8090/h2-console)
 	- JDBC URL: jdbc:h2:mem:cocus_db, User Name: sa, Password: (keep empty)
 	
